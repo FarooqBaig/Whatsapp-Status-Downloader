@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -179,10 +180,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 
     @Override
     public void onLongItemClick(int position ) {
-        String str="Long Click to Play" ;
-        Toast.makeText(this,str, Toast.LENGTH_SHORT).show();
+        String file = (Uri.fromFile(Constant.allMediaList.get(position))).toString();
+        File file1 = new File(file);
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "Status Downloader Pro");
 
-
-
+        try {
+            org.apache.commons.io.FileUtils.copyFileToDirectory(file1  , dir);
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
